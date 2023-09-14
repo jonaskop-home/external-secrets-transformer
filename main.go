@@ -98,8 +98,13 @@ func getKeyvaultVariables(data map[string]interface{}) []string {
 		matches := r.FindAllString(v.(string), -1)
 		for _, match := range matches {
 			formatted := match[2 : len(match)-2]
-			trimmed := strings.Trim(formatted, " ")
-			keyvaultKeys = append(keyvaultKeys, trimmed)
+			words := strings.Fields(formatted)
+			for _, w := range words {
+				if w[0] == '.' {
+					keyvaultKeys = append(keyvaultKeys, w)
+					break
+				}
+			}
 		}
 
 	}
